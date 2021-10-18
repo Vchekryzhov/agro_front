@@ -4,18 +4,18 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
-    field: [],
-    params: {},
-  },
-  mutations: {
-    setField(state, field) {
-      state.field = field;
+    state: {
+        field: [],
+        guidanceLine: [],
     },
-    setParams(state, params){
-      state.params = params;
-    }
-  },
-  actions: {},
-  modules: {},
+    mutations: {
+        setField(state, field) {
+            state.field = field;
+        },
+        setGuidanceLine(state, guidanceLine) {
+            state.guidanceLine = guidanceLine;
+        }
+    },
+    actions: {},
+    modules: {}
 });
