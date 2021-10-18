@@ -48,29 +48,31 @@ export default {
     },
     computed: {
         geojsonStyleFunction() {
-            return null;
+            return {
+                weight: 5,
+                color: "#2E0854",
+                opacity: 1,
+            };
         }
     },
     methods: {
-        async calculateRoute(payload) {
+        async calculateRoute() {
             let pointRoutes;
+            debugger;
+            if (!this.store.state.field[0] || this.store.state.guidanceLine.length == 0) {
+                return null;
+            }
             pointRoutes = await RouteService.calculate({
                 algorithm: "SNAKE",
-                figurePoints: [
-                    {
-                        latitude: 0,
-                        longitute: 0
-                    }
-                ],
-                sideDistance: 0,
-                bufferInMeters: 0,
-                guidanceLine: [
-                    {
-                        latitude: 0,
-                        longitute: 0
-                    }
-                ],
-                speed: 0
+                figurePoints: this.store.state.field[0].map((points) => {
+                    return { latitude: points.lat, longitute: points.lng };
+                }),
+                sideDistance: 1,
+                bufferInMeters: 1,
+                guidanceLine: this.store.state.guidanceLine?.map((points) => {
+                    return { latitude: points.lat, longitute: points.lng };
+                }),
+                speed: 1
             });
             this.geojsonRoute.features = [
                 {
@@ -83,7 +85,7 @@ export default {
                     geometry: {
                         type: "LineString",
                         coordinates: pointRoutes.points.map((a) => {
-                            return [ a.longitute, a.latitude];
+                            return [a.longitute, a.latitude];
                         })
                     }
                 }
